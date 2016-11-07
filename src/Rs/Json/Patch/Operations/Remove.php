@@ -70,7 +70,7 @@ class Remove extends Operation
 
         if (is_array($json) && isset($json[$pointerPart])) {
             if (count($pointerParts) === 0) {
-                unset($json[$pointerPart]);
+                $json['_delete'] = true;
                 if (ctype_digit($pointerPart)) {
                     $json = array_values($json);
                 }
@@ -82,7 +82,7 @@ class Remove extends Operation
             }
         } elseif (is_object($json) && isset($json->{$pointerPart})) {
             if (count($pointerParts) === 0) {
-                unset($json->{$pointerPart});
+                $json->_delete = true;
             } else {
                 $this->remove(
                     $json->{$pointerPart},
@@ -93,9 +93,9 @@ class Remove extends Operation
             unset($json[count($json) - 1]);
         } else {
             if (is_object($json)) {
-                unset($json->{$pointerPart});
+                $json->_delete = true;
             } else {
-                unset($json[$pointerPart]);
+                $json['_delete'] = true;
             }
         }
     }
